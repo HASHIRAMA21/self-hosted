@@ -288,7 +288,7 @@ SENTRY_DIGESTS = "sentry.digests.backends.redis.RedisBackend"
 ##############
 
 SENTRY_WEB_HOST = "0.0.0.0"
-SENTRY_WEB_PORT = 9000
+SENTRY_WEB_PORT = 9005
 SENTRY_WEB_OPTIONS = {
     "http": "%s:%s" % (SENTRY_WEB_HOST, SENTRY_WEB_PORT),
     "protocol": "uwsgi",
@@ -346,6 +346,34 @@ SENTRY_WEB_OPTIONS = {
 
 SENTRY_OPTIONS["mail.list-namespace"] = env("SENTRY_MAIL_HOST", "localhost")
 SENTRY_OPTIONS["mail.from"] = f"sentry@{SENTRY_OPTIONS['mail.list-namespace']}"
+
+# Mailgun SMTP configuration (set via .env)
+if env("SENTRY_MAIL_BACKEND"):
+    SENTRY_OPTIONS["mail.backend"] = env("SENTRY_MAIL_BACKEND")
+if env("SENTRY_MAIL_SMTP_HOST"):
+    SENTRY_OPTIONS["mail.host"] = env("SENTRY_MAIL_SMTP_HOST")
+if env("SENTRY_MAIL_PORT"):
+    SENTRY_OPTIONS["mail.port"] = int(env("SENTRY_MAIL_PORT"))
+if env("SENTRY_MAIL_USERNAME"):
+    SENTRY_OPTIONS["mail.username"] = env("SENTRY_MAIL_USERNAME")
+if env("SENTRY_MAIL_PASSWORD"):
+    SENTRY_OPTIONS["mail.password"] = env("SENTRY_MAIL_PASSWORD")
+if env("SENTRY_MAIL_USE_TLS"):
+    SENTRY_OPTIONS["mail.use-tls"] = env("SENTRY_MAIL_USE_TLS") == "true"
+if env("SENTRY_MAIL_ENABLE_REPLIES"):
+    SENTRY_OPTIONS["mail.enable-replies"] = env("SENTRY_MAIL_ENABLE_REPLIES") == "true"
+if env("SENTRY_MAIL_HOST"):
+    SENTRY_OPTIONS["mail.reply-hostname"] = env("SENTRY_MAIL_HOST")
+if env("SENTRY_MAILGUN_API_KEY"):
+    SENTRY_OPTIONS["mail.mailgun-api-key"] = env("SENTRY_MAILGUN_API_KEY")
+
+# Slack integration (set via .env)
+if env("SENTRY_SLACK_CLIENT_ID"):
+    SENTRY_OPTIONS["slack.client-id"] = env("SENTRY_SLACK_CLIENT_ID")
+if env("SENTRY_SLACK_CLIENT_SECRET"):
+    SENTRY_OPTIONS["slack.client-secret"] = env("SENTRY_SLACK_CLIENT_SECRET")
+if env("SENTRY_SLACK_SIGNING_SECRET"):
+    SENTRY_OPTIONS["slack.signing-secret"] = env("SENTRY_SLACK_SIGNING_SECRET")
 
 ############
 # Features #
@@ -481,7 +509,7 @@ CSP_REPORT_ONLY = True
 # this to match your IPs/domains. Ports should be included if you are using custom ports.
 # https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-CSRF_TRUSTED_ORIGINS
 
-# CSRF_TRUSTED_ORIGINS = ["https://example.com", "http://127.0.0.1:9000"]
+# CSRF_TRUSTED_ORIGINS = ["https://example.com", "http://127.0.0.1:9005"]
 
 #################
 # JS SDK Loader #

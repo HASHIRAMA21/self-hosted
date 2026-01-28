@@ -7,38 +7,20 @@
 # Mail Server #
 ###############
 
+# NOTE: All mail settings are now configured via environment variables
+#       in .env and applied in sentry.conf.py. See .env for details.
+#
 # mail.backend: 'smtp'  # Use dummy if you want to disable email entirely
-mail.host: 'smtp'
+# mail.host: 'smtp'
 # mail.port: 25
 # mail.username: ''
 # mail.password: ''
-# NOTE: `mail.use-tls` and `mail.use-ssl` are mutually exclusive and should not
-#        appear at the same time. Only uncomment one of them.
-# mail.use-tls: false
-# mail.use-ssl: false
-
-# NOTE: The following 2 configs (mail.from and mail.list-namespace) are set
-#       through SENTRY_MAIL_HOST in sentry.conf.py so remove those first if
-#       you want your values in this file to be effective!
-
-# The email address to send on behalf of
-# mail.from: 'root@localhost' or ...
-# mail.from: 'System Administrator <root@localhost>'
-
-# The mailing list namespace for emails sent by this Sentry server.
-# This should be a domain you own (often the same domain as the domain
-# part of the `mail.from` configuration parameter value) or `localhost`.
+# mail.use-tls: false  # mutually exclusive with mail.use-ssl
+# mail.use-ssl: false  # mutually exclusive with mail.use-tls
+# mail.from: 'root@localhost'
 # mail.list-namespace: 'localhost'
-
-# If you'd like to configure email replies, enable this.
 # mail.enable-replies: true
-
-# When email-replies are enabled, this value is used in the Reply-To header
 # mail.reply-hostname: ''
-
-# If you're using mailgun for inbound mail, set your API key and configure a
-# route to forward to /api/hooks/mailgun/inbound/
-# Also don't forget to set `mail.enable-replies: true` above.
 # mail.mailgun-api-key: ''
 
 ###################
@@ -51,13 +33,13 @@ mail.host: 'smtp'
 # system.url-prefix: https://example.sentry.com
 
 # Most of the time, this should NOT be changed. It's used for communication
-# between containers. `web` is the container's name, and `9000` is the
+# between containers. `web` is the container's name, and `9005` is the
 # default port opened by the Sentry backend (this is NOT the public port).
 #
 # If you want to change the publicly exposed domain or port, you should change
 # `system.url-prefix` above instead, along with `SENTRY_BIND` in `.env` file.
 # Also see https://develop.sentry.dev/self-hosted/#productionalizing.
-system.internal-url-prefix: 'http://web:9000'
+system.internal-url-prefix: 'http://web:9005'
 
 # If this file ever becomes compromised, it's important to generate a new key.
 # Changing this value will result in all current sessions being invalidated.
@@ -141,11 +123,13 @@ transaction-events.force-disable-internal-project: true
 
 # Refer to https://develop.sentry.dev/integrations/slack/ for setup instructions.
 
-# slack.client-id: <'client id'>
-# slack.client-secret: <client secret>
-# slack.signing-secret: <signing secret>
-## If legacy-app is True use verification-token instead of signing-secret
-# slack.verification-token: <verification token>
+# NOTE: All Slack settings are now configured via environment variables
+#       in .env and applied in sentry.conf.py. See .env for details.
+#
+# slack.client-id: ''
+# slack.client-secret: ''
+# slack.signing-secret: ''
+# slack.verification-token: ''  # only if legacy-app is True, instead of signing-secret
 
 
 #######################
